@@ -37,7 +37,21 @@ body{
 #leftbar{
     grid-column-start: 1;
     grid-column-end: 2;
+    height: 88vh;
     background-color: var(--grey);
+}
+
+.project-list{
+    display: flex;
+    flex-direction: column;
+}
+
+.project{
+    padding: 1rem 1rem 0.5rem 1rem;
+    cursor: pointer;
+}
+.project:hover{
+    background-color: aliceblue;
 }
 
 #main{

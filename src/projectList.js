@@ -6,13 +6,19 @@ export default class projectList{
         this.projects = [];
         this.projects.push(new Project("Today"));
         this.projects.push(new Project("Important"));
+        this.projectNum = 2;
     }
 
     setProjects(projects){
         this.projects = projects;
+        this.projectNum++;
     }
 
-    getProjects() {
+    getProjectsNum(){
+        return this.projectsNum;
+    }
+
+    getAllProjects() {
         return this.projects;
     }
 
