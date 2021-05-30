@@ -31,7 +31,7 @@ body{
 
 #content{
     display: grid;
-    grid-template-columns: 20em 1fr 1fr;
+    grid-template-columns: 20em 1fr;
 }
 
 #leftbar{
@@ -47,5 +47,5 @@ body{
 
 #optionsbar{
     display:none;
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(221, 101, 101);
 }
