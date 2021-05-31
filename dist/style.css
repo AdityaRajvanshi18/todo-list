@@ -31,8 +31,10 @@ body{
 
 #content{
     display: grid;
-    grid-template-columns: 20em 1fr;
+    grid-template-columns: 18em 1fr;
 }
+
+/* LEFTBAR */
 
 #leftbar{
     grid-column-start: 1;
@@ -46,13 +48,53 @@ body{
     flex-direction: column;
 }
 
-.project{
-    padding: 1rem 1rem 0.5rem 1rem;
+.project-container{
+    display: grid;
+    grid-template-columns: 1.1rem 1fr;
+    padding: 0.5rem;
     cursor: pointer;
 }
-.project:hover{
+.project-container:hover{
     background-color: aliceblue;
 }
+
+.project-img{
+    width:100%;
+}
+
+.project-title{
+    font-size: 1.1rem;
+    margin-left: 1rem;
+}
+
+.new-project-container{
+    display: grid;
+    grid-template-columns: 1.1rem 1fr 1.1rem;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+.new-project-container:hover{
+    background-color: aliceblue;
+}
+
+.project-img-confirm{
+    width:100%;
+    height: 100%;
+}
+
+.new-project-field{
+    border: none;
+    background-color: var(--grey);
+    font-size: 0.9rem;
+    width:14em;
+    height: 100%;
+    margin-left: 1rem;
+}
+
+.new-project-field:hover{
+    background-color: aliceblue;
+}
+
 
 #main{
     grid-column-start: 2;

@@ -4,7 +4,7 @@ import Task from './task';
 export default class projectList{
     constructor() {
         this.projects = [];
-        this.projects.push(new Project("Today"));
+        this.projects.push(new Project("Inbox"));
         this.projects.push(new Project("Important"));
         this.projectNum = 2;
     }
@@ -12,6 +12,11 @@ export default class projectList{
     setProjects(projects){
         this.projects = projects;
         this.projectNum++;
+    }
+
+    addProject(name){
+        this.projects.push(new Project(name));
+        this.projectNum += 1;
     }
 
     getProjectsNum(){
