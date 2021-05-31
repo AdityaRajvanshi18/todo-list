@@ -16,7 +16,15 @@ export default class projectList{
 
     addProject(name){
         this.projects.push(new Project(name));
-        this.projectNum += 1;
+        this.projectNum++;
+    }
+
+    popProject(){
+        this.projects.pop();
+    }
+
+    removeProject(index){
+        return this.projects.splice(index, 1);
     }
 
     getProjectsNum(){

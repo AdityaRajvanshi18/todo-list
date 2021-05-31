@@ -8,40 +8,23 @@ const listOfProjects = new projectList;
 
 
 function createNewProject(name){
+    if(name === ""){
+        name = "Untitled Project";
+        if(name === listOfProjects.contains(name)){
+            console.log("duplicate exists");
+            return;
+        }
+        
+    }
+
+    
     listOfProjects.addProject(name);
-    console.log(listOfProjects);
+    //console.log("from inside the function", listOfProjects);
 
-
-    /* let tempName = this.previousElementSibling.value;
-    const projectContainer = document.createElement("div");
-    const projectImgContainer = document.createElement("div");
-    const projectImg = document.createElement("img");
-    const projectName = document.createElement("div");
-
-    projectContainer.classList.add("project-container");
-    projectImgContainer.classList.add("project-img-container");
-    projectImg.classList.add("project-img");
-    projectName.classList.add("project-title");
-
-    projectImg.src = "img/list.png";
-    projectName.textContent = tempName;
-
-    projectImgContainer.appendChild(projectImg);
-    projectContainer.appendChild(projectImgContainer);
-    projectContainer.appendChild(projectName);
-
-    listOfProjects.addProject(tempName);
-    console.log(listOfProjects);
-    projectContainer.addEventListener("click", loadMain); */
 }
 
 //function that takes a project and creates a DOM element
-function createProject(project){
-    /* const name = document.createElement("div");
-    name.classList.add("project");
-    name.textContent = project.getName();
-    //console.log(project);
-    name.addEventListener("click", loadMain); */
+function renderProject(project){
 
     const projectContainer = document.createElement("div");
     const projectImgContainer = document.createElement("div");
@@ -60,15 +43,16 @@ function createProject(project){
     projectContainer.appendChild(projectImgContainer);
     projectContainer.appendChild(projectName);
 
-    listOfProjects.addProject(project.getName());
-    //console.log(listOfProjects);
+    //listOfProjects.addProject(project.getName()); THIS WAS CAUSING THE BUG
+    //basically was adding the project to the list here (incorrect place) and in the correct place
+    //so the project was being added twice. this is simply the renderer, nothing else.
     projectContainer.addEventListener("click", loadMain);
 
     return projectContainer;
     //return name;
 }
 
-function createProjectDefault(project){
+function renderProjectDefault(project){
     const projectContainer = document.createElement("div");
     const projectImgContainer = document.createElement("div");
     const projectImg = document.createElement("img");
@@ -94,11 +78,11 @@ function createProjectDefault(project){
     return projectContainer;
 }
 
-function createProjectManager(project){
+function renderProjectManager(project){
     if (project.getName() === "Inbox" || project.getName() === "Important"){
-        return createProjectDefault(project);
+        return renderProjectDefault(project);
     }
-    else return createProject(project);
+    else return renderProject(project);
 }
 
 function loadMain(){
@@ -128,7 +112,7 @@ function addNewProject(){
     newProjectConfirm.src = "img/tick.png"
 
     newProjectConfirmContainer.appendChild(newProjectConfirm);
-    //console.log(listOfProjects);
+    
     newProjectContainer.appendChild(newProjectImg);
     newProjectContainer.appendChild(projectInputField);
     newProjectContainer.appendChild(newProjectConfirmContainer);
@@ -140,13 +124,14 @@ function newProjectManager(){
     //add new project to project list
     let tempName = document.getElementById("new-project-name");
     createNewProject(tempName.value);
+
     //clear the projects list tab
     const projects = document.querySelectorAll(".project-container");
     projects.forEach(e => e.parentNode.removeChild(e));
 
     const removalField = document.querySelectorAll(".new-project-container");
     removalField.forEach(e => e.parentNode.removeChild(e));
-    //console.log(projects);
+    console.log("removed all projects", listOfProjects);
 
     
     //call loadProjects
@@ -160,7 +145,8 @@ function loadProjects(){
     const projectListDOM = document.createElement("div");
     projectListDOM.classList.add("project-list");
 
-    listOfProjects.getAllProjects().forEach((project)=> projectListDOM.appendChild(createProjectManager(project)));
+    console.log(listOfProjects.projects.length);
+    listOfProjects.getAllProjects().forEach((project)=> projectListDOM.appendChild(renderProjectManager(project)));
 
     projectListDOM.appendChild(addNewProject());
     projectsBar.appendChild(projectListDOM);
