@@ -1,7 +1,8 @@
 export default class Task {
-    constructor(name, dueDate = "No date"){
+    constructor(name, dueDate = "No date", ){
         this.name = name;
         this.dueDate = dueDate;
+        this.isComplete = false;
     }
     setName(name) {
         this.name = name;
@@ -9,6 +10,18 @@ export default class Task {
     
     getName() {
         return this.name;
+    }
+
+    getComplete(){
+        return this.isComplete;
+    }
+
+    setCompleteTrue(){
+        return this.isComplete = true;
+    }
+
+    setCompleteFalse(){
+        return this.isComplete = false;
     }
     
     setDate(dueDate) {

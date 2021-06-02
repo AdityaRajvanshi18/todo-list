@@ -4,6 +4,7 @@
 }
 body{
     font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
 }
 /* HEADER */
 #header{
@@ -95,10 +96,85 @@ body{
     background-color: aliceblue;
 }
 
+/* MAIN */
 
 #main{
     grid-column-start: 2;
-    background-color: rgb(148, 202, 250);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    margin-left: 2rem;
+}
+
+.main-title{
+    font-size: 2rem;
+    margin: 1rem 0rem;
+    color: var(--blue);
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1rem;
+}
+
+.task-container{
+    display: flex;
+    padding: 0.5rem 0rem;
+    justify-content: space-between;
+    border-bottom: var(--grey);
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+}
+
+.task-container:hover{
+    background-color: var(--grey);
+    cursor: pointer;
+}
+
+.task-name{
+    margin-left: 1rem;
+    font-size: 1.1rem;    
+}
+
+.task-left{
+    display: flex;
+}
+
+.task-check{
+    margin-left: 0rem;
+    width: 1.2rem;
+}
+
+.task-right{
+    display: flex;
+}
+
+.task-date{
+    font-size: 1.1rem;
+}
+
+.task-star{
+    width: 1.4rem;
+    margin: 0 0 0 1rem;
+}
+
+.completed-title{
+    margin: 1rem 1rem 1rem 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+.completed-list {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1rem;
+}
+
+.task-name-completed{
+    margin-left: 1rem;
+    font-size: 1.1rem;  
+    text-decoration: line-through; 
+    color: gray; 
 }
 
 #optionsbar{
