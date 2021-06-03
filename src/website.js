@@ -51,13 +51,7 @@ function renderProject(project){
     projectContainer.appendChild(projectImgContainer);
     projectContainer.appendChild(projectName);
 
-    //listOfProjects.addProject(project.getName()); THIS WAS CAUSING THE BUG
-    //basically was adding the project to the list here (incorrect place) and in the correct place
-    //so the project was being added twice. this is simply the renderer, nothing else.
-    projectContainer.addEventListener("click", loadMain);
-
     return projectContainer;
-    //return name;
 }
 
 function renderProjectDefault(project){
@@ -82,7 +76,7 @@ function renderProjectDefault(project){
     projectImgContainer.appendChild(projectImg);
     projectContainer.appendChild(projectImgContainer);
     projectContainer.appendChild(projectName);
-    projectContainer.addEventListener("click", loadMain);
+
     return projectContainer;
 }
 
@@ -147,7 +141,7 @@ function loadMainManager(project){
     //set current project to the project clicked on
     currProjectName = project.target.textContent;
     currProject = listOfProjects.getProject(currProjectName);
-    console.log(currProject);
+    //console.log(currProject);
     
     //clear task page
     clearTaskDrawing();
@@ -171,7 +165,7 @@ function loadProjects(){
     projectConfirmButton.addEventListener("click", newProjectManager);
 
     const projectToLoad = document.querySelectorAll(".project-container");
-    console.log(projectToLoad);
+    //console.log(projectToLoad);
     projectToLoad.forEach((project) => project.addEventListener("click", loadMainManager));
     //on click call function that wipes all DOM on project and then 
     //draws the new list of projects and opens the main on the newest list 
@@ -181,23 +175,12 @@ function loadProjects(){
 
 /* LOAD MAIN STUFF HERE */
 
-function loadMain(){
-    let mainToLoad = this.textContent;
-    //console.log(mainToLoad);
-    /* const mainSection = document.getElementById("main");
-    const mainTitle = document.createElement("div");
-    mainTitle.classList.add("main-title");
-    mainTitle.textContent = this.mainToLoad;
-    mainSection.appendChild(mainTitle); */
-}
-
 function updateTaskImportant(task){
     console.log(task);
 }
 
 
 function renderTasks(task){
-
     const taskContainer = document.createElement("div");
     const taskCheckContainer = document.createElement("div");
     const taskCheck = document.createElement("img");
@@ -219,10 +202,17 @@ function renderTasks(task){
     
     taskCheck.setAttribute("data-task", task.getName());
     taskCheck.id = "checkbox-incomplete";
+    
     taskCheck.src = "img/incomplete.png"
     taskName.textContent = task.getName();
     taskDate.textContent = task.getDate();
-    taskStar.src = "img/star.png";
+    if(!task.isImportant){
+        taskStar.src = "img/star.png";
+    }
+    else{
+        taskStar.src = "img/starblue.png";
+    }
+    
     
     taskCheckContainer.appendChild(taskCheck);
     taskLeft.appendChild(taskCheckContainer);
@@ -261,7 +251,12 @@ function renderTasksComplete(task){
     taskCheck.src = "img/complete.png";
     taskName.textContent = task.getName();
     taskDate.textContent = task.getDate();
-    taskStar.src = "img/star.png";
+    if(!task.isImportant){
+        taskStar.src = "img/star.png";
+    }
+    else{
+        taskStar.src = "img/starblue.png";
+    }
     
     taskCheckContainer.appendChild(taskCheck);
     taskLeft.appendChild(taskCheckContainer);
@@ -316,8 +311,14 @@ function newTaskManager(){
     let tempName = document.querySelector(".new-task-input");
 
     let newTask = new Task(tempName.value);
+    
+    if(currProject.getName() === "Important"){
+        newTask.setImportantTrue();
+    }
+    else{
+        newTask.setImportantFalse();
+    }
     currProject.addTask(newTask);
-
     //clear the tasks list tab
     clearTaskDrawing();
     
@@ -328,7 +329,6 @@ function newTaskManager(){
 
 function loadMainDefault(){
     //let currProject = listOfProjects.getProject("Inbox");
-    console.log(currProject);
     
     const mainSection = document.getElementById("main");
     const mainTitle = document.createElement("div");
@@ -357,17 +357,6 @@ function loadMainDefault(){
     const taskListDOM = document.createElement("div");
     taskListDOM.classList.add("task-list");
 
-    
-
-    //get tasks for default project
-    /* let tempTask = new Task("test1", "soon");
-    tempTask.setCompleteTrue();
-    let tempTask2 = new Task("test2", "later");
-    let tempTask3 = new Task("test3", "even later");
-    currProject.addTask(tempTask);
-    currProject.addTask(tempTask2);
-    currProject.addTask(tempTask3); */
-    //console.log(currProject.getAllTasks())
     currProject.getAllTasks().forEach((task) => {
         if(!task.getComplete()){
             taskListDOM.appendChild(renderTasks(task));
