@@ -177,6 +177,34 @@ body{
     color: gray; 
 }
 
+.new-task{
+    display: flex;
+    padding: 0.5rem 0;
+    border-bottom: var(--grey);
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    
+}
+
+.new-task-img{
+    width: 24px
+}
+
+.new-task-input{
+    border: none;
+    font-size: 0.9rem;
+    width:14em;
+    height: 100%;
+    margin-left: 1rem;
+}
+
+.new-task-tick{
+    width: 1.2rem;
+    cursor: pointer;
+    margin-left: 1rem;
+}
+
+
 #optionsbar{
     display:none;
     background-color: rgb(221, 101, 101);

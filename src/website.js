@@ -10,7 +10,7 @@ let currProject = listOfProjects.getProject(currProjectName);
 let tempTask = new Task("test1", "soon");
 tempTask.setCompleteTrue();
 let tempTask2 = new Task("test2", "later");
-let tempTask3 = new Task("test3", "even later");
+let tempTask3 = new Task("test3");
 currProject.addTask(tempTask);
 currProject.addTask(tempTask2);
 currProject.addTask(tempTask3);
@@ -28,7 +28,6 @@ function createNewProject(name){
 
     
     listOfProjects.addProject(name);
-    //console.log("from inside the function", listOfProjects);
 
 }
 
@@ -136,12 +135,25 @@ function newProjectManager(){
 
     const removalField = document.querySelectorAll(".new-project-container");
     removalField.forEach(e => e.parentNode.removeChild(e));
-    //console.log("removed all projects", listOfProjects);
+    
 
     
     //call loadProjects
     loadProjects();
 
+}
+
+function loadMainManager(project){
+    //set current project to the project clicked on
+    currProjectName = project.target.textContent;
+    currProject = listOfProjects.getProject(currProjectName);
+    console.log(currProject);
+    
+    //clear task page
+    clearTaskDrawing();
+
+    //loadMainDefault();
+    loadMainDefault();
 }
 
 function loadProjects(){
@@ -157,6 +169,10 @@ function loadProjects(){
 
     const projectConfirmButton = document.getElementById("confirm");
     projectConfirmButton.addEventListener("click", newProjectManager);
+
+    const projectToLoad = document.querySelectorAll(".project-container");
+    console.log(projectToLoad);
+    projectToLoad.forEach((project) => project.addEventListener("click", loadMainManager));
     //on click call function that wipes all DOM on project and then 
     //draws the new list of projects and opens the main on the newest list 
 
@@ -167,7 +183,7 @@ function loadProjects(){
 
 function loadMain(){
     let mainToLoad = this.textContent;
-    console.log(mainToLoad);
+    //console.log(mainToLoad);
     /* const mainSection = document.getElementById("main");
     const mainTitle = document.createElement("div");
     mainTitle.classList.add("main-title");
@@ -179,21 +195,6 @@ function updateTaskImportant(task){
     console.log(task);
 }
 
-function updateTaskComplete(task){
-    //get the task
-
-    //if isComplete = false then equal true and strike out
-    //else set isComplete = false, remove strike out;
-
-    
-    const tempName = task.target.attributes["data-task"].value;
-    //let tempTask = task.getName();
-    //let tempComplete = task.getComplete();
-    /* console.log(task.target.attributes["data-task"].value); */
-    //console.log(task);
-    
-    
-}
 
 function renderTasks(task){
 
@@ -231,9 +232,6 @@ function renderTasks(task){
 
     taskContainer.appendChild(taskLeft);
     taskContainer.appendChild(taskRight);
-
-    taskCheck.addEventListener("click", updateTaskComplete);
-    taskStar.addEventListener("click", updateTaskImportant);
 
     return taskContainer;
 }
@@ -274,11 +272,25 @@ function renderTasksComplete(task){
     taskContainer.appendChild(taskLeft);
     taskContainer.appendChild(taskRight);
 
-    taskCheck.addEventListener("click", updateTaskComplete);
-    taskStar.addEventListener("click", updateTaskImportant);
-
     return taskContainer;
 } 
+
+function clearTaskDrawing(){
+    const projectTitle = document.querySelectorAll(".main-title");
+    projectTitle.forEach(e => e.parentNode.removeChild(e));
+
+    const newtask = document.querySelectorAll(".task-list");
+    newtask.forEach(e => e.parentNode.removeChild(e));
+
+    const tasks = document.querySelectorAll(".new-task");
+    tasks.forEach(e => e.parentNode.removeChild(e));
+
+    const completedTitle = document.querySelectorAll(".completed-title");
+    completedTitle.forEach(e => e.parentNode.removeChild(e));
+
+    const completedTasks = document.querySelectorAll(".completed-list");
+    completedTasks.forEach(e => e.parentNode.removeChild(e));
+}
 
 function completeManager(task){
     let taskName = task.target.attributes["data-task"].value;
@@ -292,34 +304,60 @@ function completeManager(task){
     }
 
     //emptying the entire task page
-    const projectTitle = document.querySelectorAll(".main-title");
-    projectTitle.forEach(e => e.parentNode.removeChild(e));
-
-    const tasks = document.querySelectorAll(".task-list");
-    tasks.forEach(e => e.parentNode.removeChild(e));
-
-    const completedTitle = document.querySelectorAll(".completed-title");
-    completedTitle.forEach(e => e.parentNode.removeChild(e));
-
-    const completedTasks = document.querySelectorAll(".completed-list");
-    completedTasks.forEach(e => e.parentNode.removeChild(e));
+    clearTaskDrawing();
+    
 
     //redraw
     loadMainDefault();
 }
 
+function newTaskManager(){
+    //add new task to project list
+    let tempName = document.querySelector(".new-task-input");
+
+    let newTask = new Task(tempName.value);
+    currProject.addTask(newTask);
+
+    //clear the tasks list tab
+    clearTaskDrawing();
+    
+    //call loadProjects
+    loadMainDefault();
+
+}
+
 function loadMainDefault(){
     //let currProject = listOfProjects.getProject("Inbox");
-    //console.log(currProject.name);
+    console.log(currProject);
+    
     const mainSection = document.getElementById("main");
     const mainTitle = document.createElement("div");
     mainTitle.classList.add("main-title");
     mainTitle.textContent = currProject.name;
 
     const addNewTask = document.createElement("div");
+    const addNewTaskImg = document.createElement("img");
+    const addNewTaskInput = document.createElement("input");
+    const addNewTaskTick = document.createElement("img");
+    
+    addNewTask.classList.add("new-task");
+    addNewTaskImg.classList.add("new-task-img");
+    addNewTaskImg.src = "img/plus.png";
+    addNewTaskInput.classList.add("new-task-input");
+    addNewTaskInput.setAttribute("type", "text");
+    addNewTaskInput.setAttribute("placeholder", "Add a task");
+    addNewTaskTick.classList.add("new-task-tick");
+    addNewTaskTick.src = "img/tick.png";
+    
+
+    addNewTask.appendChild(addNewTaskImg);
+    addNewTask.appendChild(addNewTaskInput);
+    addNewTask.appendChild(addNewTaskTick);
     
     const taskListDOM = document.createElement("div");
     taskListDOM.classList.add("task-list");
+
+    
 
     //get tasks for default project
     /* let tempTask = new Task("test1", "soon");
@@ -329,7 +367,7 @@ function loadMainDefault(){
     currProject.addTask(tempTask);
     currProject.addTask(tempTask2);
     currProject.addTask(tempTask3); */
-    console.log(currProject.getAllTasks())
+    //console.log(currProject.getAllTasks())
     currProject.getAllTasks().forEach((task) => {
         if(!task.getComplete()){
             taskListDOM.appendChild(renderTasks(task));
@@ -355,11 +393,10 @@ function loadMainDefault(){
     mainSection.appendChild(completedListDOM);
 
     const taskComplete = Array.from(document.getElementsByClassName("task-check"));
-    //console.log("this is taskComplete", taskComplete);
-
     taskComplete.forEach(task => task.addEventListener("click", completeManager))
 
-
+    const addATask = document.querySelector(".new-task-tick");
+    addATask.addEventListener("click", newTaskManager);
     //for each task call "renderTasks"
 
     return mainSection;
@@ -372,7 +409,6 @@ function initialiseWebsite(){
 
 
     //content.appendChild(loadOptions());
-    //console.log(content);
 }
 
 export default  initialiseWebsite;
