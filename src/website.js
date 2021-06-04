@@ -24,11 +24,10 @@ currProject.addTask(tempTask3);
 function createNewProject(name){
     if(name === ""){
         name = "Untitled Project";
-        if(name === listOfProjects.contains(name)){
-            console.log("duplicate exists");
+        if(listOfProjects.contains(name)){
+            alert("A project with this name already exists! \nPlease choose a different name for this project.");
             return;
-        }
-        
+        }        
     }
 
     
@@ -450,6 +449,9 @@ function newTaskManager(){
     //add new task to project list
     let tempName = document.querySelector(".new-task-input");
 
+    if(tempName.value === ""){
+        tempName.value = "Untitled Task";
+    }
     if(currProject.contains(tempName.value)){
         alert("A task with this name already exists! \nPlease choose a different name for this task.");
         return;
