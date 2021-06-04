@@ -4,6 +4,7 @@ export default class Task {
         this.dueDate = dueDate;
         this.isComplete = false;
         this.isImportant = false;
+        this.rootProject = "";
     }
     setName(name) {
         this.name = name;
@@ -21,7 +22,7 @@ export default class Task {
          return this.dueDate;
      }
      
-     getDateFormatted() {
+    getDateFormatted() {
          const day = this.dueDate.split('/')[0];
          const month = this.dueDate.split('/')[1];
          const year = this.dueDate.split('/')[2];
@@ -52,5 +53,12 @@ export default class Task {
         return this.isImportant = false;
     }
     
+    getRootProject(){
+        return this.rootProject;
+    }
+
+    setRootProject(projectName){
+        this.rootProject = projectName;
+    }
     
 }

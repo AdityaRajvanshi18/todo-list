@@ -27,9 +27,39 @@ export default class Project {
     getTask(taskName) {
         return this.tasks.find((task) => task.getName() === taskName);
     }
-    
-    contains(taskName) {
-        return this.tasks.some((task) => task.getName() === taskName);
+
+    getTaskIndex(taskName){
+        let index = 0;
+        let iterator = 0;
+        let allTasks = this.getAllTasks();
+        allTasks.forEach((task) =>{
+            if(task.getName() === taskName){
+                index = iterator;
+            }
+            else{
+                iterator++;
+            }
+        })
+        return index;
+    }
+
+    popTask(){
+        this.tasks.pop();
+    }
+
+    removeTask(index){
+        return this.tasks.splice(index, 1);
+    }
+
+    contains(taskName){
+        let flag = false;
+        let allTasks = this.getAllTasks();
+        allTasks.forEach((task) => {
+            if (task.getName() === taskName){
+                flag = true;
+            }
+        })
+        return flag;
     }
     
     addTask(task) {

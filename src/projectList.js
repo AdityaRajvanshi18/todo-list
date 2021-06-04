@@ -39,7 +39,20 @@ export default class projectList{
         return this.projects.find((project) => project.getName() === projectName);
     }
     
-    contains(projectName) {
+    /* contains(projectName) {
         return this.projects.some((project) => project.getName() === projectName);
+    } */
+
+    contains(projectName){
+        let flag = false;
+        let allProjects = this.getAllProjects();
+        allProjects.forEach((project) => {
+            if (project.getName() === projectName){
+                flag = true;
+            }
+        })
+        return flag;
     }
+
+
 }
