@@ -234,7 +234,7 @@ function importantManager(task){
                 currProject = listOfProjects.getProject(currProjectName);
                 //make sure task does not already exist in inbox
                 if(currProject.contains(currTaskObj.getName())){
-                    alert(`This task already exists in Inbox. The task will be deleted from Important and will not be added to ${currProject.getName()}.`);
+                    //alert(`This task already exists in ${currProject.getName()}. The task will be deleted from Important and will not be added to ${currProject.getName()}.`);
                     let tempTask = currProject.getTask(currTaskObj.getName())
                     tempTask.setImportantFalse();
                 }
