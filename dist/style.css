@@ -95,7 +95,7 @@ button:focus {
     border: none;
     background-color: var(--grey);
     font-size: 0.9rem;
-    width:14em;
+    width:16em;
     height: 100%;
     margin-left: 1rem;
 }
@@ -201,7 +201,7 @@ button:focus {
 .new-task-input{
     border: none;
     font-size: 0.9rem;
-    width:14em;
+    width:30rem;
     height: 100%;
     margin-left: 1rem;
 }
@@ -212,8 +212,34 @@ button:focus {
     margin-left: 1rem;
 }
 
+/* OPTIONS */
 
 #optionsbar{
-    display:none;
-    background-color: rgb(221, 101, 101);
+    display: none;
+    background-color: var(--grey);
+}
+
+.options-container{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    margin: 1rem;
+
+}
+
+@media only screen and (min-width: 1000px) {
+    #optionsbar {
+      width:20em;
+    }
+  }
+
+.name-edit-form{
+    margin: 1rem 1rem;
+    font-size: 1rem;
+}
+
+.name-edit{   
+    width: 100%;
+    color: black;
+    border: none;
 }

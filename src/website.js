@@ -8,6 +8,10 @@ const listOfProjects = new projectList;
 let currProjectName = "Inbox";
 let prevProjectName = "";
 let currProject = listOfProjects.getProject(currProjectName);
+const content = document.getElementById("content");
+const main = document.getElementById("main");
+
+
 let tempTask = new Task("test1", "soon");
 tempTask.setCompleteTrue();
 let tempTask2 = new Task("test2", "later");
@@ -93,7 +97,7 @@ function renderProjectManager(project){
 
 //Should sit at the bottom of leftbar and be called at the end of the re-draw
 function addNewProject(){
-    const newProjectContainer = document.createElement("div");
+    const newProjectContainer = document.createElement("form"); //EDIT HERE
     newProjectContainer.classList.add("new-project-container");
 
     const newProjectImg = document.createElement("img");
@@ -105,19 +109,9 @@ function addNewProject(){
     projectInputField.id = "new-project-name";
     projectInputField.setAttribute("type", "text");
     projectInputField.setAttribute("placeholder", "Add Project");
-
-    const newProjectConfirmContainer = document.createElement("div");
-    const newProjectConfirm = document.createElement("img");
-    newProjectConfirmContainer.classList.add("project-confirm-container");
-    newProjectConfirmContainer.id = "confirm";
-    newProjectConfirm.classList.add("project-img-confirm");
-    newProjectConfirm.src = "img/tick.png"
-
-    newProjectConfirmContainer.appendChild(newProjectConfirm);
     
     newProjectContainer.appendChild(newProjectImg);
     newProjectContainer.appendChild(projectInputField);
-    newProjectContainer.appendChild(newProjectConfirmContainer);
 
     return newProjectContainer;
 }
@@ -151,10 +145,11 @@ function loadMainManager(project){
     //set current project to the project clicked on
     currProjectName = project.target.textContent;
     currProject = listOfProjects.getProject(currProjectName);
-    //console.log(currProject);
     
     //clear task page
     clearTaskDrawing();
+
+    //clear options page
 
     //loadMainDefault();
     loadMainDefault();
@@ -171,11 +166,10 @@ function loadProjects(){
     projectListDOM.appendChild(addNewProject());
     projectsBar.appendChild(projectListDOM);
 
-    const projectConfirmButton = document.getElementById("confirm");
-    projectConfirmButton.addEventListener("click", newProjectManager);
+    const projectConfirmField = document.querySelector(".new-project-container");
+    projectConfirmField.addEventListener("submit", newProjectManager);
 
     const projectToLoad = document.querySelectorAll(".project-container");
-    //console.log(projectToLoad);
     projectToLoad.forEach((project) => project.addEventListener("click", loadMainManager));
     //on click call function that wipes all DOM on project and then 
     //draws the new list of projects and opens the main on the newest list 
@@ -274,7 +268,7 @@ function importantManager(task){
             }
             else{
                 currProject.addTask(currTaskObj);
-                console.log(currProject.getAllTasks());
+                
             }
             //navigate back to previous project"This task already exists in the Inbox, either change the task's name or delete it."
             currProjectName = prevProjectName;
@@ -299,7 +293,6 @@ function importantManager(task){
             else{
                 taskIndex = currProject.getTaskIndex(currTaskObj.getName())
                 currProject.removeTask(taskIndex);
-                console.log(currProject.getAllTasks());
             }
             //navigate back to previous project"This task already exists in the Inbox, either change the task's name or delete it."
             currProjectName = prevProjectName;
@@ -337,7 +330,7 @@ function renderTasks(task){
     taskLeft.classList.add("task-left");
     taskRight.classList.add("task-right");
     
-    
+    taskContainer.setAttribute("data-task", task.getName());
     taskCheck.setAttribute("data-task", task.getName());
     taskStar.setAttribute("data-task", task.getName());
     taskCheck.id = "checkbox-incomplete";
@@ -485,10 +478,9 @@ function drawMainTitle(){
 }
 
 function drawNewTaskBar(){
-    const addNewTask = document.createElement("div");
+    const addNewTask = document.createElement("form");
     const addNewTaskImg = document.createElement("img");
     const addNewTaskInput = document.createElement("input");
-    const addNewTaskTick = document.createElement("img");
     
     addNewTask.classList.add("new-task");
     addNewTaskImg.classList.add("new-task-img");
@@ -496,12 +488,9 @@ function drawNewTaskBar(){
     addNewTaskInput.classList.add("new-task-input");
     addNewTaskInput.setAttribute("type", "text");
     addNewTaskInput.setAttribute("placeholder", "Add a task");
-    addNewTaskTick.classList.add("new-task-tick");
-    addNewTaskTick.src = "img/tick.png";
     
     addNewTask.appendChild(addNewTaskImg);
     addNewTask.appendChild(addNewTaskInput);
-    addNewTask.appendChild(addNewTaskTick);
     return addNewTask;
 }
 
@@ -539,6 +528,7 @@ function drawCompletedList(){
 
 function loadMainDefault(){
     //let currProject = listOfProjects.getProject("Inbox");
+
     
     const mainSection = document.getElementById("main");
 
@@ -554,17 +544,82 @@ function loadMainDefault(){
     const taskImportant = Array.from(document.getElementsByClassName("task-star"));
     taskImportant.forEach(task => task.addEventListener("click", importantManager))
 
-    const addATask = document.querySelector(".new-task-tick");
-    addATask.addEventListener("click", newTaskManager);
+    const taskOptions = Array.from(document.getElementsByClassName("task-container"));
+    taskOptions.forEach(task => task.addEventListener("click", loadOptionsColumn));
+
+    const addATaskField = document.querySelector(".new-task");
+    addATaskField.addEventListener("submit", newTaskManager);
+
     return mainSection;
 }
+
+/* OPTIONS SECTION */
+
+function clearOptionsColumn(){
+    const options = document.querySelectorAll("#optionsbar");
+    options.forEach(e => e.parentNode.removeChild(e));
+}
+
+function loadOptionsColumn(e){
+    let currTask = e.target.dataset.task;
+    console.log(e.target.dataset.task);
+
+    //clear options column
+    if(document.querySelector("#optionsbar") !== null){
+        clearOptionsColumn();       
+    }
+    
+
+    console.log(document.querySelector("#optionsbar"));
+    if(document.querySelector("#optionsbar") === null){
+        //create options bar
+        content.style.gridTemplateColumns = "18em 1fr 20em";        
+    }
+    const optionsBar = document.createElement("div");
+    optionsBar.id = "optionsbar";
+    optionsBar.style.display = "inline";
+
+    const optionsContainer = document.createElement("div");
+    optionsContainer.classList.add("options-container"); //flex box
+
+    const nameEditForm = document.createElement("form");
+    const nameEdit = document.createElement("input");
+    nameEditForm.classList.add("name-edit-form");
+    nameEdit.classList.add("name-edit");
+    nameEdit.setAttribute("type", "text");
+    nameEdit.setAttribute("placeholder", currTask);
+
+    nameEditForm.appendChild(nameEdit);
+    optionsContainer.appendChild(nameEditForm);
+
+    optionsBar.appendChild(optionsContainer);
+    content.appendChild(optionsBar);
+
+    //event listeners
+
+
+    
+    /* content.style.gridTemplateColumns = "18em 1fr 1fr";
+    const optionsBar = document.createElement("div");
+    optionsBar.id = "optionsbar";
+    optionsBar.style.display = "inline";
+    content.appendChild(optionsBar); */
+    
+    //edit name
+    //
+
+
+    //delete task
+    //add due date
+    //add desc maybe
+
+}   
+
 
 function initialiseWebsite(){
     const content = document.getElementById("content");
     content.appendChild(loadProjects());
     content.appendChild(loadMainDefault());
-
-
     //content.appendChild(loadOptions());
 }
 

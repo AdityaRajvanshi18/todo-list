@@ -35,6 +35,10 @@ export default class projectList{
         return this.projects;
     }
 
+    getAllProjectNames() {
+        return this.projects.forEach((project)=> project.getName());
+    }
+
     getProject(projectName) {
         return this.projects.find((project) => project.getName() === projectName);
     }
