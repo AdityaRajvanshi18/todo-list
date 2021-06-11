@@ -148,7 +148,7 @@ function loadMainManager(project){
     
     //clear task page
     clearTaskDrawing();
-
+    
     //clear options page
 
     //loadMainDefault();
@@ -589,10 +589,35 @@ function loadOptionsColumn(e){
     nameEdit.setAttribute("type", "text");
     nameEdit.setAttribute("placeholder", currTask);
 
+    const dueDateContainer = document.createElement("div");
+    dueDateContainer.classList.add("due-date-cont");
+
+    const dueDateTitle = document.createElement("div");
+    dueDateTitle.classList.add("due-date-title");
+    dueDateTitle.textContent = "Set a new due date";
+
+    const dueDate = document.createElement("input");
+    dueDate.setAttribute("type", "date");
+    dueDate.classList.add("due-date");
+
+    const confirmButton = document.createElement("button");
+    confirmButton.id = "confirm";
+
+    const deleteButton = document.createElement("button");
+    deleteButton.id = "delete";
+
     nameEditForm.appendChild(nameEdit);
     optionsContainer.appendChild(nameEditForm);
+    optionsContainer.appendChild(dueDateTitle);
+    optionsContainer.appendChild(dueDate);
 
     optionsBar.appendChild(optionsContainer);
+
+    const buttonsBar = document.createElement("div");
+
+
+
+
     content.appendChild(optionsBar);
 
     //event listeners

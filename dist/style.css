@@ -234,12 +234,28 @@ button:focus {
   }
 
 .name-edit-form{
-    margin: 1rem 1rem;
+    margin: 1rem auto;
     font-size: 1rem;
+    width: 80%
 }
 
 .name-edit{   
     width: 100%;
     color: black;
     border: none;
+}
+
+.due-date-cont{
+    margin: 1rem 0;
+}
+
+.due-date-title{
+    margin: 0 auto;
+    color: var(--blue);
+}
+
+.due-date{
+    width: 80%;
+    text-align: center;
+    margin: 1rem auto;
 }
